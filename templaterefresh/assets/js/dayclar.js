@@ -62,7 +62,9 @@ $(document).ready(function () {
 		}
 	})();
 
-
-	$dayclar.displayBannerImages();
-	$dayclar.initializeSlick();
+	if (window.location.pathname !== '/contact.html') {
+		$dayclar.displayBannerImages();
+		$dayclar.initializeSlick();
+	}
+	
 })
