@@ -1,6 +1,10 @@
 @extends('layout')
 @section('w-title', 'Our properties')
 
+@section('menu')
+	@parent
+@endsection
+
 @section('content')
 	<section id="One"
         class="wrapper style3 properties-bg">
