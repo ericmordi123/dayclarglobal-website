@@ -3,7 +3,7 @@
 
 <head>
 	
-    <title>DayClarGlobalVentures</title>
+    <title>DayClarGlobalVentures - @yield('w-title')</title>
 	<meta charset="utf-8" />
 	<meta name="viewport"
 		content="width=device-width, initial-scale=1" />
@@ -40,8 +40,8 @@
         <!-- Nav -->
         <nav id="menu">
             <ul class="links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/contact.html">Contact</a></li>
             </ul>
         </nav>
     @show
