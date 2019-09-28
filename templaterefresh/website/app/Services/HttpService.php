@@ -94,37 +94,36 @@ class HttpService
     }
 
     /**
-     * @POST
+     * @GET
      */
     public function aboutDayclar()
     {
-        // $this->setRequestHeaders();
-        $this->internalResponse->reset();
+        $this->setRequestHeaders();
 
+        $internalResponse = new InternalResponseService();
         $request = $this->curl;
-       
+
         try {
-             $request->setHeader('Authorization', 'Bearer '.env('DIRECTUS_AUTH_KEY'));
-             $str =  $this->api_url.'/about?access_token='.env('DIRECTUS_AUTH_KEY');
-             
-            $request->get( $str );
+            $str = $this->api_url.'/about';
+
+            $request->get($str);
 
             if ($request->error && $request->http_status_code !== 200) {
                 $this->updateCurlResponse($request->http_status_code, $request->response, 'api request error');
 
-                $this->internalResponse->error($this->jsonResponseData());
+                $internalResponse->error($this->jsonResponseData());
 
                 // error
-                return $this->internalResponse;
+                return $internalResponse;
             }
 
             $this->updateCurlResponse($request->http_status_code, $request->response);
-            $this->internalResponse->success($this->jsonResponseData());
+            $internalResponse->success($this->jsonResponseData(true));
 
             // successful
-            return $this->internalResponse;
+            return $internalResponse;
         } catch (Exception $e) {
-            $this->internalResponse->error($e);
+            $internalResponse->error($this->jsonResponseData($e));
         }
     }
 
@@ -133,40 +132,69 @@ class HttpService
      */
 
     /**
-     * @POST
+     * @GET
      */
     public function homePageDayclar()
     {
-        // $this->setRequestHeaders();
-        $this->internalResponse->reset();
+        $this->setRequestHeaders();
 
+        $internalResponse = new InternalResponseService();
         $request = $this->curl;
+
         try {
             $request->get(
-                $this->api_url.'/pages?fields=*.*&filter[page_name]=Home'
+                $this->api_url.'/site_pages?fields=*.*&filter[page_name]=Home'
             );
 
             if ($request->error && $request->http_status_code !== 200) {
                 $this->updateCurlResponse($request->http_status_code, $request->response, 'api request error');
 
-                $this->internalResponse->error($this->jsonResponseData());
+                $internalResponse->error($this->jsonResponseData());
 
                 // error
-                return $this->internalResponse;
+                return $internalResponse;
             }
 
             $this->updateCurlResponse($request->http_status_code, $request->response);
-            $this->internalResponse->success($this->jsonResponseData());
+            $internalResponse->success($this->jsonResponseData(true));
 
             // successful
-            return $this->internalResponse;
+            return $internalResponse;
         } catch (Exception $e) {
-            $this->internalResponse->error($e);
+            $internalResponse->error($this->jsonResponseData($e));
         }
     }
 
-    public function getReqRaw(string $url)
+    /**
+     * @GET
+     */
+    public function contactPageDayclar()
     {
-        return $this->curl->get($url);
+        $this->setRequestHeaders();
+        $internalResponse = new InternalResponseService();
+        $request = $this->curl;
+
+        try {
+            $request->get(
+                $this->api_url.'/site_pages?fields=*.*&filter[page_name]=Contact'
+            );
+
+            if ($request->error && $request->http_status_code !== 200) {
+                $this->updateCurlResponse($request->http_status_code, $request->response, 'api request error');
+
+                $internalResponse->error($this->jsonResponseData());
+
+                // error
+                return $internalResponse;
+            }
+
+            $this->updateCurlResponse($request->http_status_code, $request->response);
+            $internalResponse->success($this->jsonResponseData(true));
+
+            // successful
+            return $internalResponse;
+        } catch (Exception $e) {
+            $internalResponse->error($this->jsonResponseData($e));
+        }
     }
 }
