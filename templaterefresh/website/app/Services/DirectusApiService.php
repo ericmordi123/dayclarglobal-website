@@ -35,7 +35,7 @@ class DirectusApiService
 			  "pageData" => $homePageData
 			]);
 
-		  return $homePageViewModel->viewModelObject();
+		  return $homePageViewModel;
     }
 
     public function createCustomer($customer)

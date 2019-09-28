@@ -12,6 +12,6 @@ class PageViewer extends Controller
         $directus = new DirectusApiService();
         $homePageViewModel = $directus->homePage($httpService);
         
-        dd($homePageViewModel);
+        dd($homePageViewModel->viewModelObject());
     }
 }
