@@ -21,9 +21,9 @@
 
 
 	<link rel="stylesheet"
-		href="/assets/css/main.css" />
+		href="/css/main.css" />
 	<link rel="stylesheet"
-		href="/assets/css/dayclar.css">
+		href="/css/dayclar.css">
 	
 </head>
 
@@ -46,9 +46,7 @@
         </nav>
     @show
 
-    <template>
-        @yield('content')
-    </template>
+    @yield('content')
 
     @section('footer')
             <!-- Footer -->
@@ -99,14 +97,14 @@
     @show
 
 	<!-- Scripts -->
-	<script src="/assets/js/jquery.min.js"></script>
-	<script src="/assets/js/jquery.scrollex.min.js"></script>
-	<script src="/assets/js/skel.min.js"></script>
-	<script src="/assets/js/util.js"></script>
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/jquery.scrollex.min.js"></script>
+	<script src="/js/skel.min.js"></script>
+	<script src="/js/util.js"></script>
 
-	<script src="/data.js"></script>
-	<script src="/assets/js/dayclar.js"></script>
-	<script src="/assets/js/main.js"></script>
+	<script src="/js/data.js"></script>
+	<script src="/js/dayclar.js"></script>
+	<script src="/js/main.js"></script>
 
 
 	<!-- Carousel -->

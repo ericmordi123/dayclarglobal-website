@@ -55,3 +55,7 @@
 			</div>
 	</section>
 @endsection
+
+@section('footer')
+	@parent
+@endsection

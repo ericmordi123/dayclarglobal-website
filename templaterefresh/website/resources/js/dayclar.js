@@ -63,7 +63,7 @@ $(document).ready(function () {
 	})();
 
 	if (window.location.pathname !== '/contact.html') {
-		// $dayclar.displayBannerImages();
+		$dayclar.displayBannerImages();
 		$dayclar.initializeSlick();
 	}
 	

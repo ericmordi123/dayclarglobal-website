@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\HttpService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +24,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // Curl client wrapper registered to app container
+        $this->app->singleton(HttpService::class, function($app){
+            $http = new HttpService();
+            $http->config();
+
+            return $http;
+        });
+
     }
 }
