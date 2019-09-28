@@ -93,6 +93,15 @@ class InternalResponseService
         return;   
     }
 
+    public function getDirectusData($all = false) 
+    {
+        if ($all) {
+            return $this->data->data;;
+        }
+        
+        return $this->data->data[0];
+    }
+
     /**
      * @param Enums\ResponseTypes as string $type 
      */

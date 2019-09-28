@@ -13,5 +13,15 @@ class PageViewer extends Controller
         $homePageViewModel = $directus->homePage($httpService);
         
         dd($homePageViewModel->viewModelObject());
+        // return view($homePageViewModel->templateName());
+    }
+
+    public function contact(HttpService $httpService)
+    {
+        $directus = new DirectusApiService();
+        $contactPageViewModel = $directus->contactPage($httpService);
+        
+        dd($contactPageViewModel->viewModelObject());
+        // return view($contactPageViewModel->templateName());
     }
 }

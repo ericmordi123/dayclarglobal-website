@@ -11,9 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+// Route::get('/', function () {
+//     return view('home');
+// });
 
 
-Route::get('/test', 'PageViewer@index');
+Route::get('/', 'PageViewer@index');
+Route::get('/contact', 'PageViewer@contact');

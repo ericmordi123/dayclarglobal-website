@@ -58,6 +58,11 @@ class PageViewModel
         $this->defaultSection = $sectionData;
     }
 
+    public function addToViewModel(array $data)
+    {
+        $this->viewModel = array_merge($this->viewModel, $data);
+    }
+
     public function buildDefaultViewModel()
     {
         $this->viewModel = [

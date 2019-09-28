@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use App\Helpers\AppHelper;
+use Illuminate\Support\Arr;
+use App\ViewModels\PageViewModel;
 use App\ViewModels\HomePageViewModel;
 
 class DirectusApiService
@@ -11,60 +14,74 @@ class DirectusApiService
      */
     public function homePage(HttpService $apiService)
     {
-        $homePageData = $apiService->homePageDayclar();
-        $aboutDayclar = $apiService->aboutDayclar();
+        $homePage = $apiService->homePageDayclar()->getDirectusData();
+        $aboutDayclar = $apiService->aboutDayclar()->getDirectusData();
+        $bannerSlides = $apiService->homeSlidesDayclar()->getDirectusData(true);
+        $servicesOffered = $apiService->dayclarServices()->getDirectusData(true);
 
-		  $homePageViewModel = new HomePageViewModel('Home', 'home');
-		  
-		  $homePageViewModel->setPageData([
-				"section1H" => '',
-				"section1subH" => '',
-				"section2H" => '',
-				"section2subH" => '',
-				"section3H" => '',
-				"section3subH" => '',
-		  ]);
+        $homePageViewModel = new HomePageViewModel('Home', 'home');
 
-		  if (false) {
-				$homePageViewModel->setDefaultData(['']);
-		  }
+        $homePageViewModel->setPageData([
+                'section1H' => $homePage->section_one_heading,
+                'section1subH' => $homePage->section_one_sub_heading,
+                'section2H' => $homePage->section_two_heading,
+                'section2subH' => $homePage->section_two_sub_heading,
+                'section3H' => $homePage->section_three_heading,
+                'section3subH' => $homePage->section_three_sub_heading,
+          ]);
 
-		  $homePageViewModel->buildDefaultViewModel();
-		  $homePageViewModel->addToViewModel([
-			  "about" => $aboutDayclar,
-			  "pageData" => $homePageData
-			]);
-
-		  return $homePageViewModel;
-    }
-
-    public function createCustomer($customer)
-    {
-        $curl = new Curl();
-        // $curl->setHeader('Authorization', 'Bearer '.env('DIRECTUS_AUTH_KEY'));
-
-        $curl->post(env('DIRECTUS_API').'items/customers?access_token='.env('DIRECTUS_AUTH_KEY'), [
-            'first_name' => $customer['first_name'],
-            'email' => $customer['email'],
-            'created_at' => date('Y-m-d H:i:s'),
-        ]);
-
-        if ($curl->error) {
-            return [
-                'status' => false,
-                'error' => $curl->error,
-            ];
+        if ($homePage->use_default_section) {
+            $homePageViewModel->setDefaultData($homePage->default_section_content);
         }
 
-        return [
-            'customer' => $curl->response,
-            'status' => true,
-            'error' => $curl->error,
-        ];
-    }
+        $homePageViewModel->buildDefaultViewModel();
+        $homePageViewModel->addToViewModel([
+                'about' => AppHelper::ArrayToObject(Arr::except(AppHelper::ObjectToArray($aboutDayclar), ['id', 'created_by'])),
+                'bannerSlides' => $bannerSlides,
+                'servicesOffered' => $servicesOffered,
+         ]);
+
+        return $homePageViewModel;
+	 }
+	 
+
+	/**
+	 * 
+	 * 
+	 */
+    public function contactPage(HttpService $apiService)
+    {
+        $contactPage = $apiService->contactPageDayclar()->getDirectusData();
+        $aboutDayclar = $apiService->aboutDayclar()->getDirectusData();
+
+        $contactPageViewModel = new PageViewModel('Contact us', 'contact');
+
+        $contactPageViewModel->setPageData([
+                'section1H' => $contactPage->section_one_heading,
+                'section1subH' => $contactPage->section_one_sub_heading,
+                'section2H' => $contactPage->section_two_heading,
+                'section2subH' => $contactPage->section_two_sub_heading,
+                'section3H' => $contactPage->section_three_heading,
+                'section3subH' => $contactPage->section_three_sub_heading,
+          ]);
+
+        if ($contactPage->use_default_section) {
+            $contactPageViewModel->setDefaultData($contactPage->default_section_content);
+        }
+
+        $contactPageViewModel->buildDefaultViewModel();
+        $contactPageViewModel->addToViewModel([
+               'about' => AppHelper::ArrayToObject(Arr::except(AppHelper::ObjectToArray($aboutDayclar), ['id', 'created_by'])),
+            	'arrayType' => gettype(['test' => 'isod']),
+          ]);
+
+        return $contactPageViewModel;
+	 }
+	 
 
     /**
      * @param $payload is Array with keys that represent enquiry_id & service_id
+	  * 
      */
     public function updateEnquiryServicesJunction($enquiry, $services)
     {
@@ -167,84 +184,6 @@ class DirectusApiService
 
         $curl->setHeader('Authorization', 'Bearer '.env('DIRECTUS_AUTH_KEY'));
         $curl->get(env('DIRECTUS_API').'items/customers?fields=*.*.*&access_token='.env('DIRECTUS_AUTH_KEY'));
-
-        if ($curl->error) {
-            return view('error');
-        } else {
-            return $curl->response;
-        }
-    }
-
-    /**
-     * gets site generic data.
-     */
-    public function siteData($fields = false)
-    {
-        $curl = new Curl();
-        $curl->setHeader('Authorization', 'Bearer '.env('DIRECTUS_AUTH_KEY'));
-
-        // return env('DIRECTUS_API').'items/generic_site_data?fields='.$fields."&access_token=".env('DIRECTUS_AUTH_KEY');
-        // return $fields;
-
-        // return requested fields only
-        if ($fields) {
-            $curl->get(env('DIRECTUS_API').'items/generic_site_data?fields='.$fields.'&access_token='.env('DIRECTUS_AUTH_KEY'));
-
-            if ($curl->error) {
-                // return view('error');
-                return [
-                    'status' => $curl->error,
-                    'url' => env('DIRECTUS_API').'items/generic_site_data?fields='.$fields.'&access_token='.env('DIRECTUS_AUTH_KEY'),
-                ];
-            } else {
-                return $curl->response;
-            }
-        }
-
-        // return all fields
-        $curl->get(env('DIRECTUS_API').'items/generic_site_data?fields=*.*,services.service.*,skills.skill.*,social_platforms.social_platform.*,my_testimonials.testimonial.*.*&access_token='.env('DIRECTUS_AUTH_KEY'));
-
-        if ($curl->error) {
-            return view('error');
-        } else {
-            return $curl->response;
-        }
-    }
-
-    public function projects()
-    {
-        $curl = new Curl();
-
-        // $curl->setHeader('Authorization', 'Bearer '.env('DIRECTUS_AUTH_KEY'));
-        $curl->get(env('DIRECTUS_API').'items/projects?status=published&fields=*.*,tech_used.tech.*,gallery.file.*&access_token='.env('DIRECTUS_AUTH_KEY'));
-
-        if ($curl->error) {
-            return view('error');
-        } else {
-            return $curl->response;
-        }
-    }
-
-    public function getProject($slug)
-    {
-        $curl = new Curl();
-
-        $curl->setHeader('Authorization', 'Bearer '.env('DIRECTUS_AUTH_KEY'));
-        $curl->get(env('DIRECTUS_API').'items/projects?filter[project_slug][eq]='.$slug.'&fields=*.*,tech_used.tech.*,gallery.file.*&access_token='.env('DIRECTUS_AUTH_KEY'));
-
-        if ($curl->error) {
-            return view('error');
-        } else {
-            return $curl->response;
-        }
-    }
-
-    public function getService($slug)
-    {
-        $curl = new Curl();
-
-        $curl->setHeader('Authorization', 'Bearer '.env('DIRECTUS_AUTH_KEY'));
-        $curl->get(env('DIRECTUS_API').'items/services?filter[slug][eq]='.$slug.'&fields=*.*,tech.tech.*,related_images.file.*,related_projects.project.*.*.*&access_token='.env('DIRECTUS_AUTH_KEY'));
 
         if ($curl->error) {
             return view('error');

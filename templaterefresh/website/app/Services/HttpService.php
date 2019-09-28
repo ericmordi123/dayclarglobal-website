@@ -104,9 +104,7 @@ class HttpService
         $request = $this->curl;
 
         try {
-            $str = $this->api_url.'/about';
-
-            $request->get($str);
+            $request->get($this->api_url.'/about');
 
             if ($request->error && $request->http_status_code !== 200) {
                 $this->updateCurlResponse($request->http_status_code, $request->response, 'api request error');
@@ -121,6 +119,71 @@ class HttpService
             $internalResponse->success($this->jsonResponseData(true));
 
             // successful
+            return $internalResponse;
+        } catch (Exception $e) {
+            $internalResponse->error($this->jsonResponseData($e));
+        }
+    }
+
+      /**
+     * @GET
+     */
+    public function homeSlidesDayclar()
+    {
+        $this->setRequestHeaders();
+
+        $internalResponse = new InternalResponseService();
+        $request = $this->curl;
+
+        try {
+            $request->get($this->api_url.'/banner_slides?fields=*.*&status=published');
+
+            if ($request->error && $request->http_status_code !== 200) {
+                $this->updateCurlResponse($request->http_status_code, $request->response, 'api request error');
+
+                $internalResponse->error($this->jsonResponseData());
+
+                // error state
+                return $internalResponse;
+            }
+
+            $this->updateCurlResponse($request->http_status_code, $request->response);
+            $internalResponse->success($this->jsonResponseData(true));
+
+            // successful state
+            return $internalResponse;
+        } catch (Exception $e) {
+            $internalResponse->error($this->jsonResponseData($e));
+        }
+    }
+
+
+      /**
+     * @GET
+     */
+    public function dayclarServices()
+    {
+        $this->setRequestHeaders();
+
+        $internalResponse = new InternalResponseService();
+        $request = $this->curl;
+
+        try {
+            $request->get($this->api_url.'/services_offered?fields=*&status=published');
+
+            if ($request->error && $request->http_status_code !== 200) {
+                $this->updateCurlResponse($request->http_status_code, $request->response, 'api request error');
+
+                $internalResponse->error($this->jsonResponseData());
+
+                // error state
+                return $internalResponse;
+            }
+
+            $this->updateCurlResponse($request->http_status_code, $request->response);
+            $internalResponse->success($this->jsonResponseData(true));
+
+            // successful state
             return $internalResponse;
         } catch (Exception $e) {
             $internalResponse->error($this->jsonResponseData($e));
