@@ -2,6 +2,8 @@
 
 namespace App\ViewModels;
 
+use App\Helpers\AppHelper;
+
 class PageViewModel
 {
     public $name = 'Dayclar';
@@ -9,12 +11,15 @@ class PageViewModel
 
     public $section1H;
     public $section1subH;
+    public $section1img = null;
 
     public $section2H;
     public $section2subH;
+    public $section2img = null;
 
     public $section3H;
     public $section3subH;
+    public $section3img = null;
 
     public $useDefaultSection = false;
     public $defaultSection = null;
@@ -40,7 +45,7 @@ class PageViewModel
 
     public function viewModelObject()
     {
-        return $this->viewModel;
+        return AppHelper::ArrayToObject($this->viewModel);
     }
 
     public function setPageData($data)
@@ -66,12 +71,18 @@ class PageViewModel
     public function buildDefaultViewModel()
     {
         $this->viewModel = [
+            'baseUrl'=> env('DIRECTUS_ADMIN'),
+            'name'=> $this->name,
             'sectionOneHeading' => $this->section1H,
             'sectionOneSubHeading' => $this->section1subH,
+            'sectionOneBgImg' => $this->section1img,
             'sectionTwoHeading' => $this->section2H,
             'sectionTwoSubHeading' => $this->section2subH,
+            'sectionTwoBgImg' => $this->section2img,
             'sectionThreeHeading' => $this->section3H,
             'sectionThreeSubHeading' => $this->section3subH,
+            'sectionThreeBgImg' => $this->section3img,
+
         ];
 
         if ($this->useDefaultSection) {

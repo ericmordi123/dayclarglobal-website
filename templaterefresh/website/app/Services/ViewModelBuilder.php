@@ -7,12 +7,12 @@ use Illuminate\Support\Arr;
 use App\ViewModels\PageViewModel;
 use App\ViewModels\HomePageViewModel;
 
-class DirectusApiService
+class ViewModelBuilder
 {
     /**
      * @return App\ViewModels\HomePageViewModel
      */
-    public function homePage(HttpService $apiService)
+    public static function homePage(HttpService $apiService)
     {
         // get our data for home page
         $homePage = $apiService->homePageDayclar()->getDirectusData();
@@ -27,10 +27,13 @@ class DirectusApiService
         $homePageViewModel->setPageData([
                 'section1H' => $homePage->section_one_heading,
                 'section1subH' => $homePage->section_one_sub_heading,
+                'section1img' => $homePage->section_one_background_image,
                 'section2H' => $homePage->section_two_heading,
                 'section2subH' => $homePage->section_two_sub_heading,
+                'section2img' => $homePage->section_two_background_image,
                 'section3H' => $homePage->section_three_heading,
                 'section3subH' => $homePage->section_three_sub_heading,
+                'section3img' => $homePage->section_three_background_image,
           ]);
 
         if ($homePage->use_default_section) {
@@ -49,8 +52,13 @@ class DirectusApiService
         // final viewModel
         return $homePageViewModel;
     }
+    
 
-    public function contactPage(HttpService $apiService)
+    /**
+     * 
+     * 
+     */
+    public static function contactPage(HttpService $apiService)
     {
         // refer to index for implementation comments
         $contactPage = $apiService->contactPageDayclar()->getDirectusData();
@@ -64,8 +72,7 @@ class DirectusApiService
                 'section2H' => $contactPage->section_two_heading,
                 'section2subH' => $contactPage->section_two_sub_heading,
                 'section3H' => $contactPage->section_three_heading,
-                     'section3subH' => $contactPage->section_three_sub_heading,
-                     'test' => 'hdhdh',
+                'section3subH' => $contactPage->section_three_sub_heading,
           ]);
 
         if ($contactPage->use_default_section) {
@@ -74,15 +81,13 @@ class DirectusApiService
 
         $contactPageViewModel->buildDefaultViewModel();
         $contactPageViewModel->addToViewModel([
-               'about' => AppHelper::ArrayToObject(Arr::except(AppHelper::ObjectToArray($aboutDayclar), ['id', 'created_by'])),
-                'arrayType' => gettype(['test' => 'isod']),
+               'about' => AppHelper::ArrayToObject(Arr::except(AppHelper::ObjectToArray($aboutDayclar), ['id', 'created_by']))
           ]);
 
         return $contactPageViewModel;
-	 }
-	 
+    }
 
-	 /// CODE BELOW NOT IN USE 
+    /// CODE BELOW NOT IN USE
 
     /**
      * @param $payload is Array with keys that represent enquiry_id & service_id

@@ -55,7 +55,7 @@
 
             <div class="container-fluid p-0">
                 <div class="row footer-distributed m-0">
-                    <div class="col-12 col-lg-5">
+                    <div class="col-12 col-lg-4">
                         <h3>DayClarGlobalVentures Limited</h3>
 
                         <p class="footer-links">
@@ -67,27 +67,26 @@
 
                         <p class="footer-company-name">DayClar Global Ventures Limited &copy; 2019</p>
                     </div>
-                    <div class="col-12 col-lg-3">
+                    <div class="col-12 col-lg-4">
                         <div>
                             <i class="fa fa-map-marker"></i>
-                            <p><span>16 B Adebisi Oyenola Street, Idado Lekki</span> Lagos, Nigeria</p>
+                            <p>{{$about->address}}</p>
                         </div>
 
                         <div>
                             <i class="fa fa-phone"></i>
-                            <p>09069000030, 08139397686</p>
+                        <p>{{$about->contact_number}}</p>
                         </div>
 
                         <div>
                             <i class="fa fa-envelope"></i>
-                            <p><a href="mailto:info@dayclargroup.com">info@dayclargroup.com</a></p>
+                            <p><a href="mailto:{{$about->email}}">{{$about->email}}</a></p>
                         </div>
                     </div>
-                    <div class="col-12 col-lg-3">
+                    <div class="col-12 col-lg-4">
                         <p class="footer-company-about">
-                            <span>About the company</span> DayClar Global Ventures is a company that specialises in all things
-                            property
-                            and aims to make every house a home.
+                            <span>About the company</span> 
+                            {{$about->about_brief}}
                         </p>
                     </div>
                 </div>

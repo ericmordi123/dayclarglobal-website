@@ -206,7 +206,7 @@ class HttpService
 
         try {
             $request->get(
-                $this->api_url.'/site_pages?fields=*.*&filter[page_name]=Home'
+                $this->api_url.'/site_pages?fields=*.*.*&filter[page_name]=Home'
             );
 
             if ($request->error && $request->http_status_code !== 200) {
@@ -239,7 +239,7 @@ class HttpService
 
         try {
             $request->get(
-                $this->api_url.'/site_pages?fields=*.*&filter[page_name]=Contact'
+                $this->api_url.'/site_pages?fields=*.*.*&filter[page_name]=Contact'
             );
 
             if ($request->error && $request->http_status_code !== 200) {
