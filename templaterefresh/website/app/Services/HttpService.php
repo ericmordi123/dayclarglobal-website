@@ -29,12 +29,6 @@ class HttpService
         $this->internalResponse = new InternalResponseService(ResponseTypes::INTERNAL());
     }
 
-    // mutations
-
-    // computed
-
-    // getters
-
     public function config()
     {
         $this->curl = new Curl();
@@ -104,7 +98,7 @@ class HttpService
         $request = $this->curl;
 
         try {
-            $request->get($this->api_url.'/about');
+            $request->get($this->api_url.'/about?fields=*.*.*');
 
             if ($request->error && $request->http_status_code !== 200) {
                 $this->updateCurlResponse($request->http_status_code, $request->response, 'api request error');

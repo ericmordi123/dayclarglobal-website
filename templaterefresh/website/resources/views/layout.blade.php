@@ -41,7 +41,7 @@
         <nav id="menu">
             <ul class="links">
                 <li><a href="/">Home</a></li>
-                <li><a href="/contact.html">Contact</a></li>
+                <li><a href="/contact">Contact</a></li>
             </ul>
         </nav>
     @show
@@ -62,7 +62,7 @@
                             <a href="#">Home</a> ·
                             <a href="/#about">About</a> ·
                             <a href="/#portfolio">Portfolio</a> ·
-                            <a href="/contact.html">Contact</a>
+                            <a href="/contact">Contact</a>
                         </p>
 
                         <p class="footer-company-name">DayClar Global Ventures Limited &copy; 2019</p>

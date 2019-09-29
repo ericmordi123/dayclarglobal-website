@@ -57,6 +57,11 @@ class PageViewModel
         }
     }
 
+    public function templateName()
+    {
+		 return $this->templateName;
+    }
+
     public function setDefaultData($sectionData)
     {
         $this->useDefaultSection = true;

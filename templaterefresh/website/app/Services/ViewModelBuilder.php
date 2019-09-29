@@ -69,11 +69,14 @@ class ViewModelBuilder
         $contactPageViewModel->setPageData([
                 'section1H' => $contactPage->section_one_heading,
                 'section1subH' => $contactPage->section_one_sub_heading,
+                'section1img' => $contactPage->section_one_background_image,
                 'section2H' => $contactPage->section_two_heading,
                 'section2subH' => $contactPage->section_two_sub_heading,
+                'section2img' => $contactPage->section_two_background_image,
                 'section3H' => $contactPage->section_three_heading,
                 'section3subH' => $contactPage->section_three_sub_heading,
-          ]);
+                'section3img' => $contactPage->section_three_background_image,
+        ]);
 
         if ($contactPage->use_default_section) {
             $contactPageViewModel->setDefaultData($contactPage->default_section_content);
