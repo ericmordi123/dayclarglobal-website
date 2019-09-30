@@ -83,10 +83,7 @@
 			</header>
 			<div class="gallery">
 				@foreach ($pageModel->portfolio as $portfolioItem)
-					@component(
-						'components/properties/property_snippet_1.blade.php', 
-						['portfolioItem' => $portfolioItem, 'baseUrl' => $pageModel->baseUrl]
-					)
+					@component( 'components/properties/property_snippet_1', ['portfolioItem' => $portfolioItem, 'baseUrl' => $pageModel->baseUrl] )
 					@endcomponent
 				@endforeach
 			</div>
