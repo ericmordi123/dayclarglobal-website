@@ -10,7 +10,6 @@ class PageViewer extends Controller
     public function index(HttpService $httpService)
     {
         $homePageViewModel = ViewModelBuilder::homePage($httpService);
-        dd($homePageViewModel->viewModelObject());
         return view($homePageViewModel->templateName())
                     ->withPageModel($homePageViewModel->viewModelObject())
                     ->withAbout($homePageViewModel->viewModelObject()->about);
