@@ -26,16 +26,10 @@ class PageViewModel
 
     public $viewModel = [];
 
-    public function __construct(String $name = null, String $templateName = null, String $section1H = null, String $section1subH = null, String $section2H = null, String $section2subH = null, String $section3H = null, String $section3subH = null)
+    public function __construct(String $name = null, String $templateName = null)
     {
         $this->name = $name;
         $this->templateName = $templateName;
-        $this->section1H = $section1H;
-        $this->section1subH = $section1subH;
-        $this->section2H = $section2H;
-        $this->section2subH = $section2subH;
-        $this->section3H = $section3H;
-        $this->section3subH = $section3subH;
     }
 
     public function getSectionOneData()
