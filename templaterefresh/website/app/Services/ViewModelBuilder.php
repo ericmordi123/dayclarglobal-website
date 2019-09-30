@@ -19,6 +19,7 @@ class ViewModelBuilder
         $aboutDayclar = $apiService->aboutDayclar()->getDirectusData();
         $bannerSlides = $apiService->homeSlidesDayclar()->getDirectusData(true);
         $servicesOffered = $apiService->dayclarServices()->getDirectusData(true);
+        $top4Properties = $apiService->dayclarProperties()->getDirectusData(true);
 
         // init our view model class instance
         $homePageViewModel = new HomePageViewModel('Home', 'home');
@@ -47,6 +48,7 @@ class ViewModelBuilder
                 'about' => AppHelper::ArrayToObject(Arr::except(AppHelper::ObjectToArray($aboutDayclar), ['id', 'created_by'])),
                 'bannerSlides' => $bannerSlides,
                 'servicesOffered' => $servicesOffered,
+                'portfolio' => $top4Properties
          ]);
 
         // final viewModel
@@ -59,6 +61,42 @@ class ViewModelBuilder
      * 
      */
     public static function contactPage(HttpService $apiService)
+    {
+        // refer to index for implementation comments
+        $contactPage = $apiService->contactPageDayclar()->getDirectusData();
+        $aboutDayclar = $apiService->aboutDayclar()->getDirectusData();
+
+        $contactPageViewModel = new PageViewModel('Contact us', 'contact');
+
+        $contactPageViewModel->setPageData([
+                'section1H' => $contactPage->section_one_heading,
+                'section1subH' => $contactPage->section_one_sub_heading,
+                'section1img' => $contactPage->section_one_background_image,
+                'section2H' => $contactPage->section_two_heading,
+                'section2subH' => $contactPage->section_two_sub_heading,
+                'section2img' => $contactPage->section_two_background_image,
+                'section3H' => $contactPage->section_three_heading,
+                'section3subH' => $contactPage->section_three_sub_heading,
+                'section3img' => $contactPage->section_three_background_image,
+        ]);
+
+        if ($contactPage->use_default_section) {
+            $contactPageViewModel->setDefaultData($contactPage->default_section_content);
+        }
+
+        $contactPageViewModel->buildDefaultViewModel();
+        $contactPageViewModel->addToViewModel([
+               'about' => AppHelper::ArrayToObject(Arr::except(AppHelper::ObjectToArray($aboutDayclar), ['id', 'created_by']))
+          ]);
+
+        return $contactPageViewModel;
+    }
+
+       /**
+     * 
+     * 
+     */
+    public static function propertiesPage(HttpService $apiService)
     {
         // refer to index for implementation comments
         $contactPage = $apiService->contactPageDayclar()->getDirectusData();

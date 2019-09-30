@@ -184,6 +184,38 @@ class HttpService
         }
     }
 
+ /**
+     * @GET
+     */
+     public function dayclarProperties($limit = 4)
+    {
+        $this->setRequestHeaders();
+
+        $internalResponse = new InternalResponseService();
+        $request = $this->curl;
+
+        try {
+            $request->get($this->api_url.'/properties?fields=*.*.*&status=published&limit='.$limit);
+
+            if ($request->error && $request->http_status_code !== 200) {
+                $this->updateCurlResponse($request->http_status_code, $request->response, 'api request error');
+
+                $internalResponse->error($this->jsonResponseData());
+
+                // error state
+                return $internalResponse;
+            }
+
+            $this->updateCurlResponse($request->http_status_code, $request->response);
+            $internalResponse->success($this->jsonResponseData(true));
+
+            // successful state
+            return $internalResponse;
+        } catch (Exception $e) {
+            $internalResponse->error($this->jsonResponseData($e));
+        }
+    }
+
     /**
      *  GET PAGE DATA BELOW.
      */
